@@ -31,6 +31,8 @@ const useReactor = defineStore('reactor', () => {
   const _ballsMatrix = ref<Ball[][]>([[]])
   const travellingBalls = ref<TravellingBall[]>([])
 
+  const reactionInProgress = ref(false);
+
   const playerIdInProgress = ref('');
 
   const playerIdToBoxCountMap = computed(() => {
@@ -250,7 +252,8 @@ const useReactor = defineStore('reactor', () => {
     boxWidth,
     travellingBalls,
     playerIdInProgress,
-
+    reactionInProgress,
+    
     ballsMatrix,
     playerIdToBoxCountMap,
     isGameOver,

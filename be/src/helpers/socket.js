@@ -1,6 +1,6 @@
 const { Emit } = require('../config/socket.js');
 const container = require('../container.js');
-const { setNextPlayerTurn, addBall } = require('./room.js');
+const { setNextPlayerTurn, addBall, sanitizeMatrix, saveMatrix } = require('./room.js');
 
 const io = () => container.get('io');
 
@@ -21,9 +21,14 @@ exports.soc_addBall = async (socket, { roomCode, playerId, row, col }) => {
   socket.to(roomCode).emit(Emit.ADD_BALL, { playerId, row, col });
 }
 
-exports.soc_nextTurn = async ({ roomCode, playerId }) => {
-  await setNextPlayerTurn(roomCode, playerId);
-  io().to(roomCode).emit(Emit.NEXT_TURN, { playerId });
+exports.soc_nextTurn = async ({ roomCode, playerId, matrix }) => {
+  const sanitizedMatrix = sanitizeMatrix(matrix);
+
+  await Promise.all([
+    saveMatrix(roomCode, sanitizedMatrix),
+    setNextPlayerTurn(roomCode, playerId),
+  ]);
+  io().to(roomCode).emit(Emit.NEXT_TURN, { playerId, matrix: sanitizedMatrix });
 }
 
 exports.soc_playerRemoved = (roomCode, playerId) => {

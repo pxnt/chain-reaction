@@ -3,7 +3,7 @@
     ref="boxesRef"
     class="reactor grid"
     :class="[
-      $players.isCurrentPlayersTurn && !state.inProgress
+      $players.isCurrentPlayersTurn && !$reactor.reactionInProgress
         ? 'cursor-pointer'
         : 'cursor-not-allowed',
     ]"
@@ -20,7 +20,7 @@
         {
           'clickable': isBoxClickable(ind),
         },
-        $players.isCurrentPlayersTurn && !state.inProgress && isBoxClickable(ind)
+        $players.isCurrentPlayersTurn && !$reactor.reactionInProgress && isBoxClickable(ind)
           ? 'cursor-pointer'
           : 'cursor-not-allowed',
       ]"
@@ -53,10 +53,6 @@ const $reactor = useReactorStore();
 
 const boxRef = ref<HTMLDivElement[]>([]);
 const boxesRef = ref<HTMLDivElement>();
-const state = reactive({
-  inProgress: false,
-  counter: 0,
-});
 
 const totalBoxes = computed(() => $reactor.rows * $reactor.cols);
 const travellingBallColor = computed(() => {
@@ -103,7 +99,7 @@ function getBox(ind: number) {
 
 function isBoxClickable(ind: number) {
   const box = getBox(ind);
-  return !state.inProgress &&
+  return !$reactor.reactionInProgress &&
     $players.isCurrentPlayersTurn &&
     (
       !box.playerId ||
@@ -133,8 +129,8 @@ function onAddBall(ind: number) {
 }
 
 async function handlePlayerAddBall(playerId: string, row: number, col: number) {
-  if (state.inProgress) return;
-  state.inProgress = true;
+  if ($reactor.reactionInProgress) return;
+  $reactor.reactionInProgress = true;
 
   if (playerId === $players.currentPlayer?.id) {
     soc_addBallToAllPlayers({ row, col });
@@ -162,7 +158,7 @@ async function reactOnUI() {
     $players.setPlayerTurnOver();
   }
 
-  state.inProgress = false;
+  $reactor.reactionInProgress = false;
 }
 
 function handleGameOver() {

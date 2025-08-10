@@ -1,4 +1,4 @@
-import { AllRoomDetails, RoomState } from '../types/room';
+import { AllRoomDetails, ICell, RoomState } from '../types/room';
 import usePlayers from '../store/players';
 import useReactor from '../store/reactor';
 import useRoom from '../store/room';
@@ -8,6 +8,7 @@ import eventBus from '~/services/EventBus';
 import roomSocketService, { RoomSocketClientEvents } from '~/services/RoomSocketService';
 import Constants from '~/config';
 import useModal from '~/store/modal';
+import { watch } from 'vue';
 
 export function allRoomDetailsResponseHandler(response: AllRoomDetails) {
   const $room = useRoom();
@@ -69,8 +70,16 @@ export function addBallResponseHandler(data: { playerId: string, row: number, co
   eventBus.$emit('add_ball', data);
 }
 
-export function nextPlayerTurnResponseHandler(data: { playerId: string }) {
+export function nextPlayerTurnResponseHandler(data: { playerId: string, matrix: ICell[][] }) {
+  const $reactor = useReactor();
   const $players = usePlayers();
+
+  if ($reactor.reactionInProgress) {
+    setTimeout(() => nextPlayerTurnResponseHandler(data), 1000);
+    return;
+  }
+
+  $reactor.setBoard(data.matrix);
   $players.setPlayerTurn(data.playerId);
 }
 
@@ -91,6 +100,7 @@ export function soc_playerTurnOver(playerId: string) {
   console.log('soc_playerTurnOver', playerId);
   const $room = useRoom();
   const $players = usePlayers();
+  const $reactor = useReactor();
 
   try {
     const lastPlayerTurnColor = $players.playersMap[playerId].color;
@@ -114,6 +124,7 @@ export function soc_playerTurnOver(playerId: string) {
     roomSocketService.emit(RoomSocketClientEvents.NEXT_TURN, {
       roomCode: $room.roomCode,
       playerId: nextPlayer.id,
+      matrix: $reactor.ballsMatrix,
     });
   } catch (error) {
     debugger;

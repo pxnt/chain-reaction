@@ -27,8 +27,8 @@ module.exports = (server) => {
       soc_addBall(socket, { roomCode, playerId, row, col });
     });
 
-    socket.on(Subscribe.NEXT_TURN, async ({ roomCode, playerId }) => {
-      await soc_nextTurn({ roomCode, playerId });
+    socket.on(Subscribe.NEXT_TURN, async ({ roomCode, playerId, matrix }) => {
+      await soc_nextTurn({ roomCode, playerId, matrix });
     });
 
   });

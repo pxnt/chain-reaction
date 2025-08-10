@@ -130,3 +130,15 @@ exports.addBall = async (roomCode, playerId, row, col) => {
 
   return await redis().hset(getRoomKey(roomCode), 'matrix', JSON.stringify(matrix));
 }
+
+exports.sanitizeMatrix = (matrix) => {
+  return matrix.map(row => row.map(cell => ({
+    playerId: cell.playerId,
+    count: cell.count,
+    capacity: cell.capacity,
+  })));
+}
+
+exports.saveMatrix = async (roomCode, matrix) => {
+  await redis().hset(getRoomKey(roomCode), 'matrix', JSON.stringify(matrix));
+}
