@@ -3,7 +3,6 @@
     <Header class="header" />
     <div class="body relative">
       <RouterView :key="route.path" />
-      <div id="layout-layer-1" class="absolute z-10 top-0 left-0 w-full h-full"></div>
     </div>
     <footer class="footer w-full px-4 py-4 text-center text-white/80 border-t border-white/10" role="contentinfo"
       aria-label="Site footer" itemscope itemtype="https://schema.org/Organization">
