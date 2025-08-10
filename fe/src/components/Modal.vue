@@ -1,6 +1,6 @@
 <template>
-  <Teleport to="#layout-layer-1">
-    <div class="relative w-full h-full flex justify-center items-center">
+  <Teleport to="#root-layer-1">
+    <div class="fixed w-screen h-screen flex justify-center items-center">
       <Transition name="bounceOut" appear>
         <div class="relative">
           <slot></slot>
