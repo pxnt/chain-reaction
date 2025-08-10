@@ -36,7 +36,7 @@ import { BaseEnvURLConfig } from '~/config/BaseURLs';
 const $room = useRoom();
 const toast = useToast();
 
-const roomLink = computed(() => `${BaseEnvURLConfig.API}/room/${$room.roomCode}`);
+const roomLink = computed(() => `${window.location.origin}/room/${$room.roomCode}`);
 
 function onCopy(text: string) {
   toast.success('Copied to clipboard', {
