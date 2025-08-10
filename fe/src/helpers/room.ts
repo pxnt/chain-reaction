@@ -8,7 +8,6 @@ import eventBus from '~/services/EventBus';
 import roomSocketService, { RoomSocketClientEvents } from '~/services/RoomSocketService';
 import Constants from '~/config';
 import useModal from '~/store/modal';
-import { watch } from 'vue';
 
 export function allRoomDetailsResponseHandler(response: AllRoomDetails) {
   const $room = useRoom();
