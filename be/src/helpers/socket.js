@@ -34,3 +34,7 @@ exports.soc_nextTurn = async ({ roomCode, playerId, matrix }) => {
 exports.soc_playerRemoved = (roomCode, playerId) => {
   io().to(roomCode).emit(Emit.PLAYER_REMOVED, { playerId });
 }
+
+exports.soc_gameEnded = (roomCode) => {
+  io().to(roomCode).emit(Emit.GAME_ENDED);
+}

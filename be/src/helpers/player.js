@@ -46,3 +46,7 @@ exports.setPlayer = (playerId, payload) => {
 exports.removePlayer = async (playerId) => {
   await redis().del(getPlayerKey(playerId));
 }
+
+exports.deletePlayers = async (playerIds = []) => {
+  await redis().del(playerIds.map(getPlayerKey));
+}

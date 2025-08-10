@@ -4,7 +4,7 @@ const RoomHelpers = require('../../helpers/room');
 const PlayerHelpers = require('../../helpers/player');
 const LeaderboardHelpers = require('../../helpers/leaderboard');
 const constants = require('../../config/constants');
-const { soc_playerJoined, soc_gameStarted, soc_playerRemoved } = require('../../helpers/socket.js');
+const { soc_playerJoined, soc_gameStarted, soc_playerRemoved, soc_gameEnded } = require('../../helpers/socket.js');
 
 const roomCodeValidation = joi.string()
   .min(constants.ROOM_ID_LENGTH)
@@ -238,6 +238,31 @@ exports.removePlayer = control({
     return {
       data: {
         playerId,
+      },
+    };
+  },
+});
+
+exports.end = control({
+  validate: (req) => {
+    const paramsSchema = joi.object({
+      roomCode: roomCodeValidation.required(),
+    });
+  },
+  exec: async (req, res) => {
+    const { roomCode } = req.params;
+    const { leaderboardWithPlayers } = await LeaderboardHelpers.getLeaderboard(roomCode);
+    const playerIds = Object.keys(leaderboardWithPlayers.players);
+
+    await Promise.all([
+      RoomHelpers.deleteGame(roomCode),
+      LeaderboardHelpers.deleteLeaderboard(roomCode),
+      PlayerHelpers.deletePlayers(playerIds),
+    ]);
+    soc_gameEnded(roomCode);
+    return {
+      data: {
+        roomCode,
       },
     };
   },

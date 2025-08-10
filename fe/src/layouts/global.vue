@@ -1,34 +1,25 @@
 <template>
   <main class="grid w-full h-full min-h-screen overflow-hidden">
     <Header class="header" />
-    <div class="body">
+    <div class="body relative">
       <RouterView :key="route.path" />
+      <div id="layout-layer-1" class="absolute z-10 top-0 left-0 w-full h-full"></div>
     </div>
-    <PlayerRemovedModal v-if="$modal.showPlayerRemoved" @close="closePlayerRemovedModal" />
-    <!-- footer -->
-    <footer
-      class="footer w-full px-4 py-4 text-center text-white/80 border-t border-white/10"
-      role="contentinfo"
-      aria-label="Site footer"
-      itemscope
-      itemtype="https://schema.org/Organization"
-    >
+    <footer class="footer w-full px-4 py-4 text-center text-white/80 border-t border-white/10" role="contentinfo"
+      aria-label="Site footer" itemscope itemtype="https://schema.org/Organization">
       <meta itemprop="name" content="Chain Reaction" />
       <p class="text-xs">
         Made with <span aria-label="love" role="img">❤️</span>
         by
-        <a
-          href="https://pxnt.me"
-          target="_blank"
-          rel="noopener noreferrer author"
-          class="underline hover:no-underline"
-          itemprop="url"
-        >PXNT</a>
+        <a href="https://pxnt.me" target="_blank" rel="noopener noreferrer author" class="underline hover:no-underline"
+          itemprop="url">PXNT</a>
       </p>
       <p class="mt-1 text-[11px] text-white/60">
         Real-time multiplayer chain reaction game. Strategic moves, cascading reactions, and competitive leaderboards.
       </p>
     </footer>
+
+    <PlayerRemovedModal v-if="$modal.showPlayerRemoved" @close="closePlayerRemovedModal" />
   </main>
 </template>
 

@@ -1,7 +1,8 @@
 import { BaseEnvURLConfig } from '~/config/BaseURLs';
 import { io } from 'socket.io-client';
 import { IPlayer } from '~/types/player';
-import { addBallResponseHandler, gameStartedResponseHandler, nextPlayerTurnResponseHandler, playerJoinedResponseHandler, playerRemovedResponseHandler } from '~/helpers/room';
+import { addBallResponseHandler, gameEndedResponseHandler, gameStartedResponseHandler, nextPlayerTurnResponseHandler, playerJoinedResponseHandler, playerRemovedResponseHandler } from '~/helpers/room';
+import { ICell } from '~/types/room';
 
 export enum RoomSocketServerEvents {
   CONNECT = 'connect',
@@ -14,6 +15,7 @@ export enum RoomSocketServerEvents {
   GAME_UPDATE = 'game_update',
   ADD_BALL = 'add_ball',
   NEXT_TURN = 'next_turn',
+  GAME_ENDED = 'game_ended',
 }
 
 export enum RoomSocketClientEvents {
@@ -48,11 +50,14 @@ class RoomSocketService {
       .on(RoomSocketServerEvents.ADD_BALL, (data: { playerId: string, row: number, col: number }) => {
         addBallResponseHandler(data);
       })
-      .on(RoomSocketServerEvents.NEXT_TURN, (data: { playerId: string }) => {
+      .on(RoomSocketServerEvents.NEXT_TURN, (data: { playerId: string, matrix: ICell[][] }) => {
         nextPlayerTurnResponseHandler(data);
       })
       .on(RoomSocketServerEvents.PLAYER_REMOVED, (data: { playerId: string }) => {
         playerRemovedResponseHandler(data.playerId);
+      })
+      .on(RoomSocketServerEvents.GAME_ENDED, () => {
+        gameEndedResponseHandler();
       });
     
     // join room

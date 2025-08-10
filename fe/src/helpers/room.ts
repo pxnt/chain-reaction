@@ -8,6 +8,8 @@ import eventBus from '~/services/EventBus';
 import roomSocketService, { RoomSocketClientEvents } from '~/services/RoomSocketService';
 import Constants from '~/config';
 import useModal from '~/store/modal';
+import { PageNames } from '~/config/route';
+import { useRouter } from 'vue-router';
 
 export function allRoomDetailsResponseHandler(response: AllRoomDetails) {
   const $room = useRoom();
@@ -80,6 +82,12 @@ export function nextPlayerTurnResponseHandler(data: { playerId: string, matrix: 
 
   $reactor.setBoard(data.matrix);
   $players.setPlayerTurn(data.playerId);
+}
+
+export function gameEndedResponseHandler() {
+  const $router = useRouter();
+  resetRoomStores();
+  $router.push(PageNames.Home);
 }
 
 export function soc_addBallToAllPlayers(data: { row: number, col: number }) {

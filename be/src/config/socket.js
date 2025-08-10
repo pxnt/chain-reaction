@@ -13,4 +13,5 @@ exports.Emit = {
   ADD_BALL: 'add_ball',
   NEXT_TURN: 'next_turn',
   PLAYER_REMOVED: 'player_removed',
+  GAME_ENDED: 'game_ended',
 }
