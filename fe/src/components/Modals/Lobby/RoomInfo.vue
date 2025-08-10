@@ -31,7 +31,6 @@
 import { computed } from 'vue';
 import useRoom from '~/store/room';
 import { POSITION, useToast } from 'vue-toastification';
-import { BaseEnvURLConfig } from '~/config/BaseURLs';
 
 const $room = useRoom();
 const toast = useToast();
