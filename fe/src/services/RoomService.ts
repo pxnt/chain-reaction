@@ -89,4 +89,18 @@ export default class RoomService {
       return null
     }
   }
+
+  static async end(args: {
+    roomCode: string,
+  }): Promise<{ room: IRoom } | null> {
+    try {
+      const { roomCode } = args
+      const response = await $axios().delete(`/room/${roomCode}`)
+      return response?.data?.data as { room: IRoom };
+    }
+    catch (err) {
+      console.log('Errored at end', err)
+      return null
+    }
+  }
 }

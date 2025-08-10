@@ -83,21 +83,8 @@ exports.startGame = async (roomCode) => {
   return room;
 }
 
-exports.endGame = async (roomCode) => {
-  const room = await exports.getRoom(roomCode);
-
-  if (!room) {
-    throw new Error('room.NOT_FOUND');
-  }
-
-  if(room.state !== constants.ROOM_STATE.STARTED) {
-    throw new Error('room.INVALID_STATE');
-  }
-
-  room.state = constants.ROOM_STATE.ENDED;
-  await exports.setRoomState(roomCode, constants.ROOM_STATE.ENDED);
-  
-  return room;
+exports.deleteGame = async (roomCode) => {
+  return await redis().del(getRoomKey(roomCode));
 }
 
 exports.setNextPlayerTurn = async (roomCode, playerId) => {

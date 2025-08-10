@@ -2,7 +2,7 @@
   <GlobalLayout>
     <RouterView />
   </GlobalLayout>
-  <div id="layer-1" class="absolute z-10 top-0 left-0"></div>
+  <div id="root-layer-1" class="absolute z-10 top-0 left-0"></div>
 </template>
 
 <script setup lang="ts">

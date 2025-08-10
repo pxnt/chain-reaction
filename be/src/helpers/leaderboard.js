@@ -68,3 +68,7 @@ exports.removePlayerFromLeaderboard = async (roomCode, playerId) => {
 
   return leaderboard;
 }
+
+exports.deleteLeaderboard = (roomCode) => {
+  return redis().del(getLeaderboardKey(roomCode));
+}

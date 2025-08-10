@@ -14,4 +14,6 @@ roomRouter.post('/room/:roomCode/start', room.start);
 
 roomRouter.delete('/room/:roomCode/player/:playerId', room.removePlayer);
 
+roomRouter.delete('/room/:roomCode', room.end);
+
 module.exports = roomRouter;
