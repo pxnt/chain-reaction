@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg1: #0f2027;
+  --bg2: #203a43;
+  --bg3: #2c5364;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}

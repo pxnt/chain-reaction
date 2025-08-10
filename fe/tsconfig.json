@@ -1,0 +1,55 @@
+{
+  "include": [
+    "src",
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "src/**/*.js",
+    "types/**/*.d.ts",
+    "postcss.config.js",
+    "vite.config.ts",
+    "playwright.config.ts",
+    "tests/**/*.ts",
+    "scripts/**/*.cjs",
+    "src/**/*.spec.ts",
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "bs-config.cjs",
+  ],
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Vue3.js",
+  "compilerOptions": {
+    "composite": false,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "inlineSources": false,
+    "isolatedModules": true,
+    "moduleResolution": "node",
+    "preserveWatchOutput": true,
+    "skipLibCheck": true,
+    "noImplicitThis": true,
+
+    "allowJs": true,
+    "declaration": false,
+    "declarationMap": false,
+    "incremental": true,
+    "jsx": "preserve",
+    "jsxImportSource": "vue",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "module": "ESNext",
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "useDefineForClassFields": true,
+    "target": "ESNext",
+    "paths": {
+      "~/*": [
+        "./src/*"
+      ],
+    },
+    "ignoreDeprecations": "5.0",
+    "strict": true
+  },
+}
