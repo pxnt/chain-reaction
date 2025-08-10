@@ -4,7 +4,7 @@ import NodeEnv from './NodeEnv'
 const BaseURLConfig = {
   API: {
     [NodeEnv.DEV]: 'http://localhost:8080',
-    [NodeEnv.PROD]: 'https://api.example.com',
+    [NodeEnv.PROD]: import.meta.env.VITE_API_URL, // 'https://api.example.com',
   },
 }
 
