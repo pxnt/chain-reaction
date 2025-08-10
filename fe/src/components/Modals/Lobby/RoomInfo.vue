@@ -31,11 +31,12 @@
 import { computed } from 'vue';
 import useRoom from '~/store/room';
 import { POSITION, useToast } from 'vue-toastification';
+import { BaseEnvURLConfig } from '~/config/BaseURLs';
 
 const $room = useRoom();
 const toast = useToast();
 
-const roomLink = computed(() => `http://localhost:6969/room/${$room.roomCode}`);
+const roomLink = computed(() => `${BaseEnvURLConfig.API}/room/${$room.roomCode}`);
 
 function onCopy(text: string) {
   toast.success('Copied to clipboard', {
