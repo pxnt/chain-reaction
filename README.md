@@ -1,7 +1,7 @@
 ## Chain Reaction
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/76da6ef3-a136-454b-bde5-a3368fa747ee/deploy-status)](https://app.netlify.com/projects/chain-reaction-fe/deploys)
-[![Render API](https://img.shields.io/badge/Render-API%20Live-brightgreen?logo=render)]
+![Render API](https://img.shields.io/badge/Render-API%20Live-brightgreen?logo=render)
 
 Real‑time multiplayer Chain Reaction game. Frontend (Vue 3 + Vite) and Backend (Node.js + Socket.IO + Redis).
 
