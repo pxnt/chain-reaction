@@ -19,6 +19,7 @@
     </footer>
 
     <PlayerRemovedModal v-if="$modal.showPlayerRemoved" @close="closePlayerRemovedModal" />
+    <GameOverModal v-if="$modal.showGameOver" />
   </main>
 </template>
 
@@ -26,6 +27,7 @@
 import { RouterView, useRoute } from 'vue-router'
 import Header from '../components/Header.vue';
 import PlayerRemovedModal from '../components/Modals/PlayerRemoved.vue';
+import GameOverModal from '../components/Modals/GameOver.vue';
 import useModal from '../store/modal';
 
 const $modal = useModal();
