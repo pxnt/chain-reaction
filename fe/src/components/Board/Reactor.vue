@@ -5,7 +5,7 @@
     :class="[
       $players.isCurrentPlayersTurn && !$reactor.reactionInProgress
         ? 'cursor-pointer'
-    : 'cursor-not-allowed',
+        : 'cursor-not-allowed',
     ]"
     :style="{
     '--transitionDuration': `${Constants.TransitionDuration}ms`,
