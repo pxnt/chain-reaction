@@ -54,9 +54,10 @@ const useReactor = defineStore('reactor', () => {
 
   const totalBoxes = computed(() => rows.value * cols.value);
 
+  // if only single colored >2 balls are left
   const isGameOver = computed(() => {
-    const matrixFilledBySamePlayer = Object.values(playerIdToBoxCountMap.value).some(count => count === totalBoxes.value);
-    return matrixFilledBySamePlayer;
+    const playersLeft = Object.values(playerIdToBoxCountMap.value).filter(count => count && count > 0);
+    return playersLeft.length === 1;
   });
 
 

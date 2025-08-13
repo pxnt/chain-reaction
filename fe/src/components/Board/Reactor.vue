@@ -5,7 +5,7 @@
     :class="[
       $players.isCurrentPlayersTurn && !$reactor.reactionInProgress
         ? 'cursor-pointer'
-        : 'cursor-not-allowed',
+    : 'cursor-not-allowed',
     ]"
     :style="{
     '--transitionDuration': `${Constants.TransitionDuration}ms`,
@@ -45,10 +45,12 @@ import usePlayers from '~/store/players';
 import useRoom from '~/store/room';
 import eventBus from '~/services/EventBus';
 import { soc_addBallToAllPlayers } from '~/helpers/room';
+import useModal from '~/store/modal';
 
 const $room = useRoom();
 const $players = usePlayers();
 const $reactor = useReactorStore();
+const $modal = useModal();
 // $reactor.fillRandomValue();
 
 const boxRef = ref<HTMLDivElement[]>([]);
@@ -74,6 +76,10 @@ onMounted(async () => {
     setTimeout(globalStyle, 500);
     window.addEventListener('resize', globalStyle);
   });
+
+  if ($reactor.isGameOver) {
+    handleGameOver();
+  }
 })
 
 onBeforeUnmount(() => {
@@ -134,6 +140,19 @@ async function handlePlayerAddBall(playerId: string, row: number, col: number) {
 
   if (playerId === $players.currentPlayer?.id) {
     soc_addBallToAllPlayers({ row, col });
+  } else {
+    // blink the box animation for 1.5 seconds
+    // update css variable "--blink-color" to the player color
+    const playerColor = $players.playersMap[playerId]?.color;
+    const ind = row * $reactor.cols + col;
+    const box = boxRef.value?.[ind];
+    if (box) {
+      box.style.setProperty('--blink-color', playerColor);
+      box.classList.add('blink');
+      setTimeout(() => {
+        box.classList.remove('blink');
+      }, 1500);
+    }
   }
 
   $reactor.startReaction(row, col);
@@ -162,14 +181,17 @@ async function reactOnUI() {
 }
 
 function handleGameOver() {
-  console.log('game over');
+  const freqMap = $reactor.playerIdToBoxCountMap;
+  const winnerEntry = Object.entries(freqMap).find(([_, count]) => count && count > 0);
+  const winnerId = winnerEntry ? winnerEntry[0] : '';
+  if (winnerId) {
+    $modal.openGameOverModal(winnerId);
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 .reactor {
-  // background: navajowhite;
-  // background: rgba(255, 255, 255, 0.08);
   gap: 4px;
 
   grid-template-columns: repeat(var(--cols), 1fr);
@@ -185,6 +207,22 @@ function handleGameOver() {
 
   &.clickable:hover {
     background-color: teal;
+  }
+
+  &.blink {
+    animation: blink .5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  @keyframes blink {
+    0% {
+      background-color: color-mix(in srgb, var(--blink-color) 20%, transparent);
+    }
+    50% {
+      background-color: rgba(255, 255, 255, 0.18);
+    }
+    100% {
+      background-color: color-mix(in srgb, var(--blink-color) 20%, transparent);
+    }
   }
 }
 </style>
