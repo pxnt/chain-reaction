@@ -2,8 +2,8 @@ const express = require('express');
 
 const metaRouter = new express.Router();
 
-metaRouter.get('/meta', (req, res) => {
-  res.send('Hello World');
+metaRouter.get('/_meta/health', (req, res) => {
+  res.send({ success: true });
 });
 
 module.exports = metaRouter;
