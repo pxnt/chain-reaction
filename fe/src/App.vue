@@ -1,12 +1,48 @@
 <template>
   <GlobalLayout>
-    <RouterView />
+    <RouterView v-if="isServerHealthy" />
+    <ColdStarting v-else />
   </GlobalLayout>
   <div id="root-layer-1" class="absolute z-10 top-0 left-0"></div>
 </template>
 
 <script setup lang="ts">
+import { onMounted, ref } from 'vue';
 import GlobalLayout from './layouts/global.vue';
+import MetaService from './services/MetaService';
+import ColdStarting from './components/ColdStarting.vue';
+
+const isInitialLoad = ref(true);
+const isServerHealthy = ref(false);
+let serverHealthInterval: NodeJS.Timeout;
+
+async function checkServerHealth() {
+  const res = await MetaService.health()
+  isServerHealthy.value = res?.success;
+
+  if (!isInitialLoad.value && isServerHealthy.value) {
+    window.location.reload()
+  }
+  isInitialLoad.value = false;
+}
+
+async function startServerHealthCheck() {
+  await checkServerHealth();
+
+  if (!isServerHealthy.value) {
+    serverHealthInterval = setInterval(async () => {
+      await checkServerHealth();
+      if (isServerHealthy.value) {
+        clearInterval(serverHealthInterval)
+      }
+    }, 1000)
+  }
+}
+
+onMounted(() => {
+  startServerHealthCheck()
+})
+
 </script>
 
 <style lang="scss">

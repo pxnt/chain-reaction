@@ -2,7 +2,8 @@
   <main class="grid w-full h-full min-h-screen overflow-hidden">
     <Header class="header" />
     <div class="body relative">
-      <RouterView :key="route.path" />
+      <!-- <RouterView :key="route.path" /> -->
+      <slot />
     </div>
     <footer class="footer w-full px-4 py-4 text-center text-white/80 border-t border-white/10" role="contentinfo"
       aria-label="Site footer" itemscope itemtype="https://schema.org/Organization">
