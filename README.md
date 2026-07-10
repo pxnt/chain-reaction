@@ -7,7 +7,7 @@ Real‑time multiplayer Chain Reaction game. Frontend (Vue 3 + Vite) and Backend
 
 ### Play online
 
-[Play now](https://chain-reaction.pxnt.me)
+[Play now](https://chain-reaction.pxnt.dev)
 
 ### Quick start
 

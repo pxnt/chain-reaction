@@ -11,7 +11,7 @@
       <p class="text-xs">
         Made with <span aria-label="love" role="img">❤️</span>
         by
-        <a href="https://pxnt.me" target="_blank" rel="noopener noreferrer author" class="underline hover:no-underline"
+        <a href="https://pxnt.dev" target="_blank" rel="noopener noreferrer author" class="underline hover:no-underline"
           itemprop="url">PXNT</a>
       </p>
       <p class="mt-1 text-[11px] text-white/60">
